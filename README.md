@@ -4,6 +4,8 @@ Panorama is a media audit and maintenance toolkit for ProcessWire images and fil
 
 It is made for sites where media can spread across many templates, repeaters, galleries and file fields, and where editors need one reliable place to understand media footprint, spot waste and keep generated image variations under control.
 
+![Panorama](assets/Panorama.png)
+
 **Author:** Maxim Semenov  
 **Website:** [smnv.org](https://smnv.org)  
 **Email:** [maxim@smnv.org](mailto:maxim@smnv.org)
