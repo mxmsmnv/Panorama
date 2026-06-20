@@ -1,0 +1,1180 @@
+/* Panorama: small module-specific layer on top of AdminThemeUikit/pw-design-system. */
+
+.ProcessPanorama {
+	--panorama-accent: var(--pw-main-color, #eb1d61);
+	--panorama-border: var(--pw-border-color, rgba(0,0,0,.15));
+	--panorama-surface: var(--pw-blocks-background, #fff);
+	--panorama-soft: var(--pw-inputs-background, rgba(0,0,0,.03));
+	--panorama-muted: var(--pw-muted-color, #777);
+	--panorama-text: var(--pw-text-color, #222);
+	--panorama-radius: 6px;
+	--panorama-gap: 16px;
+	--panorama-card-min: 150px;
+}
+
+.ProcessPanorama,
+.ProcessPanorama * {
+	box-sizing: border-box;
+}
+
+.ProcessPanorama > *:first-child {
+	margin-top: 0;
+}
+
+.ProcessPanorama a,
+.ProcessPanorama a:hover,
+.ProcessPanorama a:focus {
+	text-decoration: none !important;
+}
+
+.ProcessPanorama .panorama-tabs {
+	margin: 0 0 16px;
+}
+
+.ProcessPanorama .panorama-tabs a,
+.ProcessPanorama .panorama-icon,
+.ProcessPanorama .panorama-icon svg {
+	transition: none;
+}
+
+.ProcessPanorama .panorama-tabs a {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.ProcessPanorama .uk-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	min-height: 36px;
+}
+
+.ProcessPanorama .uk-button .panorama-icon {
+	margin: 0;
+}
+
+.ProcessPanorama .uk-input,
+.ProcessPanorama .uk-select,
+.ProcessPanorama .uk-search-input {
+	min-height: 36px;
+	border-radius: var(--panorama-radius);
+}
+
+.ProcessPanorama .panorama-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 18px;
+	height: 18px;
+	flex: 0 0 auto;
+	line-height: 1;
+	color: currentColor;
+}
+
+.ProcessPanorama .panorama-icon svg {
+	display: block;
+	width: 18px;
+	height: 18px;
+	fill: currentColor;
+	stroke: none;
+}
+
+.ProcessPanorama .panorama-tab-icon {
+	color: var(--panorama-muted);
+	opacity: .78;
+}
+
+.ProcessPanorama .panorama-tabs .uk-active .panorama-tab-icon,
+.ProcessPanorama .panorama-tabs li.uk-active .panorama-tab-icon {
+	color: var(--panorama-muted);
+	opacity: .78;
+}
+
+.ProcessPanorama .panorama-tiles,
+.ProcessPanorama .panorama-grid {
+	margin-bottom: var(--panorama-gap);
+}
+
+.ProcessPanorama .panorama-grid.uk-grid {
+	display: grid !important;
+	gap: var(--panorama-gap);
+	align-items: stretch;
+	margin-left: 0 !important;
+}
+
+.ProcessPanorama .panorama-grid.uk-grid > * {
+	width: auto !important;
+	max-width: none !important;
+	min-width: 0;
+	padding-left: 0 !important;
+}
+
+.ProcessPanorama .panorama-grid > .panorama-async-panel {
+	height: 100%;
+	margin-bottom: 0;
+}
+
+.ProcessPanorama .panorama-grid.uk-grid > .panorama-panel,
+.ProcessPanorama .panorama-grid.uk-grid > .panorama-async-panel > .panorama-panel {
+	height: 100%;
+}
+
+.ProcessPanorama .panorama-grid.uk-child-width-1-2\@m {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.ProcessPanorama .panorama-grid.uk-child-width-1-1 {
+	grid-template-columns: minmax(0, 1fr);
+}
+
+@media (max-width: 960px) {
+	.ProcessPanorama .panorama-grid.uk-child-width-1-2\@m {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+.ProcessPanorama .panorama-tile,
+.ProcessPanorama .panorama-panel,
+.ProcessPanorama .panorama-toolbar,
+.ProcessPanorama .panorama-bulk,
+.ProcessPanorama .panorama-group-head {
+	border: 1px solid var(--panorama-border) !important;
+	border-radius: var(--panorama-radius);
+	box-shadow: none !important;
+	background: var(--panorama-surface);
+}
+
+.ProcessPanorama .panorama-tile:hover,
+.ProcessPanorama .panorama-tile:focus-within,
+.ProcessPanorama .panorama-panel:hover,
+.ProcessPanorama .panorama-panel:focus-within,
+.ProcessPanorama .panorama-toolbar:hover,
+.ProcessPanorama .panorama-toolbar:focus-within,
+.ProcessPanorama .panorama-bulk:hover,
+.ProcessPanorama .panorama-bulk:focus-within,
+.ProcessPanorama .panorama-group-head:hover,
+.ProcessPanorama .panorama-group-head:focus-within {
+	border: 1px solid var(--panorama-border) !important;
+	box-shadow: none !important;
+	background: var(--panorama-surface);
+}
+
+.ProcessPanorama .uk-card.panorama-tile,
+.ProcessPanorama .uk-card.panorama-panel,
+.ProcessPanorama .uk-card.panorama-toolbar,
+.ProcessPanorama .uk-card.panorama-bulk,
+.ProcessPanorama .uk-card.panorama-group-head {
+	padding: 16px !important;
+}
+
+.ProcessPanorama .panorama-panel {
+	margin-bottom: var(--panorama-gap);
+}
+
+.ProcessPanorama .panorama-panel-title {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 14px;
+	line-height: 1.2;
+}
+
+.ProcessPanorama .panorama-tile {
+	min-height: 88px;
+}
+
+.ProcessPanorama .panorama-tile .panorama-icon,
+.ProcessPanorama .panorama-panel-title .panorama-icon {
+	color: var(--panorama-accent);
+}
+
+.ProcessPanorama .panorama-tile-sub {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	max-width: 100%;
+}
+
+.ProcessPanorama .panorama-note {
+	margin: 0 0 14px;
+	color: var(--panorama-muted);
+	font-size: 13px;
+	line-height: 1.45;
+}
+
+.ProcessPanorama .panorama-empty {
+	margin: 0;
+}
+
+.ProcessPanorama .panorama-num {
+	text-align: right !important;
+	white-space: nowrap;
+}
+
+/* Dashboard meters */
+.ProcessPanorama .panorama-bars {
+	display: grid;
+	gap: 10px;
+}
+
+.ProcessPanorama .panorama-bar {
+	display: grid;
+	grid-template-columns: minmax(54px, 74px) 1fr auto;
+	align-items: center;
+	gap: 10px;
+	font-size: 13px;
+}
+
+.ProcessPanorama .panorama-bar-label {
+	overflow: hidden;
+	font-weight: 700;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.ProcessPanorama .panorama-bar-track {
+	height: 8px;
+	overflow: hidden;
+	border-radius: 999px;
+	background: var(--panorama-soft);
+}
+
+.ProcessPanorama .panorama-bar-fill {
+	display: block;
+	height: 100%;
+	border-radius: 999px;
+	background: var(--panorama-accent);
+}
+
+.ProcessPanorama .panorama-bar-files .panorama-bar-fill {
+	background: var(--panorama-muted);
+}
+
+.ProcessPanorama .panorama-bar-meta {
+	color: var(--panorama-muted);
+	white-space: nowrap;
+}
+
+.ProcessPanorama .panorama-chart-wrap {
+	position: relative;
+	height: 220px;
+}
+
+.ProcessPanorama .panorama-ranked {
+	display: grid;
+	gap: 12px;
+}
+
+.ProcessPanorama .panorama-ranked-row {
+	display: grid;
+	gap: 6px;
+	min-width: 0;
+}
+
+.ProcessPanorama .panorama-ranked-main {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 12px;
+	min-width: 0;
+}
+
+.ProcessPanorama .panorama-ranked-label {
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.ProcessPanorama .panorama-ranked-main .uk-text-meta {
+	flex: 0 0 auto;
+	white-space: nowrap;
+}
+
+.ProcessPanorama .panorama-ranked-track {
+	display: block;
+	height: 7px;
+	overflow: hidden;
+	border-radius: 999px;
+	background: var(--panorama-soft);
+}
+
+.ProcessPanorama .panorama-ranked-track span {
+	display: block;
+	height: 100%;
+	border-radius: inherit;
+	background: var(--panorama-accent);
+}
+
+.ProcessPanorama .panorama-field-list {
+	display: grid;
+	gap: 8px;
+}
+
+.ProcessPanorama .panorama-field-row {
+	display: grid;
+	grid-template-columns: 34px minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 12px;
+	min-width: 0;
+	padding: 10px 0;
+	border-bottom: 1px solid var(--panorama-border);
+	color: var(--panorama-text);
+	text-decoration: none !important;
+}
+
+.ProcessPanorama .panorama-field-row:last-child {
+	border-bottom: 0;
+}
+
+.ProcessPanorama .panorama-field-row:hover,
+.ProcessPanorama .panorama-field-row:focus {
+	color: var(--panorama-text);
+}
+
+.ProcessPanorama .panorama-field-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 34px;
+	height: 34px;
+	border-radius: var(--panorama-radius);
+	background: var(--panorama-soft);
+	color: var(--panorama-accent);
+}
+
+.ProcessPanorama .panorama-field-custom-icon .fa {
+	display: block;
+	font-size: 16px;
+	line-height: 1;
+}
+
+.ProcessPanorama .panorama-field-main {
+	display: grid;
+	gap: 7px;
+	min-width: 0;
+}
+
+.ProcessPanorama .panorama-field-name {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-weight: 700;
+	line-height: 1.2;
+}
+
+.ProcessPanorama .panorama-field-track {
+	display: block;
+	height: 7px;
+	overflow: hidden;
+	border-radius: 999px;
+	background: var(--panorama-soft);
+}
+
+.ProcessPanorama .panorama-field-track span {
+	display: block;
+	height: 100%;
+	border-radius: inherit;
+	background: var(--panorama-accent);
+}
+
+.ProcessPanorama .panorama-field-meta {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 10px;
+	min-width: 220px;
+	color: var(--panorama-muted);
+	font-size: 12px;
+	white-space: nowrap;
+}
+
+.ProcessPanorama .panorama-field-meta strong {
+	color: var(--panorama-text);
+	font-size: 13px;
+}
+
+.ProcessPanorama .panorama-field-type {
+	padding: 2px 7px;
+	border-radius: 999px;
+	background: var(--panorama-soft);
+	color: var(--panorama-muted);
+}
+
+/* Async loading */
+.ProcessPanorama .panorama-async-panel {
+	margin-bottom: 16px;
+}
+
+.ProcessPanorama .panorama-loading {
+	display: grid;
+	gap: 16px;
+	min-height: 116px;
+}
+
+.ProcessPanorama .panorama-loading-head {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.ProcessPanorama .panorama-loading-head strong,
+.ProcessPanorama .panorama-loading-head span[data-panorama-loading-note] {
+	display: block;
+}
+
+.ProcessPanorama .panorama-skeleton {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 10px;
+}
+
+.ProcessPanorama .panorama-skeleton span {
+	height: 58px;
+	border-radius: 6px;
+	background: linear-gradient(90deg, var(--panorama-soft), rgba(0,0,0,.08), var(--panorama-soft));
+	background-size: 220% 100%;
+	animation: panorama-pulse 1.4s ease-in-out infinite;
+}
+
+.ProcessPanorama .panorama-skeleton span:nth-child(2) {
+	animation-delay: .12s;
+}
+
+.ProcessPanorama .panorama-skeleton span:nth-child(3) {
+	animation-delay: .24s;
+}
+
+@keyframes panorama-pulse {
+	0% { background-position: 120% 0; }
+	100% { background-position: -120% 0; }
+}
+
+/* Media lists and gallery */
+.ProcessPanorama .panorama-gallery {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(var(--panorama-card-min), 1fr));
+	gap: var(--panorama-gap);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ProcessPanorama .panorama-card {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	gap: 6px;
+}
+
+.ProcessPanorama .panorama-card-fig {
+	position: relative;
+	aspect-ratio: 1;
+	overflow: hidden;
+	border: 1px solid var(--panorama-border);
+	border-radius: var(--panorama-radius);
+	background: var(--panorama-soft);
+}
+
+.ProcessPanorama .panorama-card-thumb {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	cursor: pointer;
+}
+
+.ProcessPanorama .panorama-card-thumb img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+.ProcessPanorama .panorama-card-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	color: var(--panorama-muted);
+}
+
+.ProcessPanorama .panorama-card-icon .panorama-icon {
+	width: 30px;
+	height: 30px;
+}
+
+.ProcessPanorama .panorama-card-icon .panorama-icon svg {
+	width: 30px;
+	height: 30px;
+}
+
+.ProcessPanorama .panorama-card-icon-btn {
+	position: absolute;
+	right: 5px;
+	bottom: 5px;
+	z-index: 3;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	border-radius: 6px;
+	background: var(--panorama-accent);
+	color: #fff;
+	opacity: 1;
+	text-decoration: none;
+}
+
+.ProcessPanorama .panorama-card-badge,
+.ProcessPanorama .panorama-group-count {
+	font-size: 11px;
+	font-weight: 800;
+}
+
+.ProcessPanorama .panorama-card-badge {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	z-index: 3;
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	min-height: 23px;
+	padding: 2px 8px;
+	border-radius: 999px;
+	background: var(--panorama-accent);
+	color: #fff;
+}
+
+.ProcessPanorama .panorama-select {
+	position: absolute;
+	top: 6px;
+	left: 6px;
+	z-index: 4;
+	width: 18px;
+	height: 18px;
+	cursor: pointer;
+}
+
+.ProcessPanorama .panorama-card-name,
+.ProcessPanorama .panorama-group-title {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.ProcessPanorama .panorama-card-name {
+	color: var(--panorama-text);
+	font-size: 12px;
+	font-weight: 700;
+	line-height: 1.25;
+	text-decoration: none !important;
+}
+
+.ProcessPanorama .panorama-card-name:hover,
+.ProcessPanorama .panorama-card-name:focus {
+	color: var(--panorama-text);
+}
+
+.ProcessPanorama .panorama-card-meta,
+.ProcessPanorama .panorama-group-sub {
+	color: var(--panorama-muted);
+	font-size: 12px;
+}
+
+.ProcessPanorama .panorama-card-meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px 8px;
+	min-height: 16px;
+	overflow: hidden;
+	line-height: 1.25;
+}
+
+.ProcessPanorama .panorama-card-meta-item {
+	min-width: 0;
+	max-width: 100%;
+	color: var(--panorama-muted);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	text-decoration: none !important;
+}
+
+.ProcessPanorama .panorama-card-page {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+}
+
+.ProcessPanorama .panorama-card-meta-item:hover,
+.ProcessPanorama .panorama-card-meta-item:focus {
+	color: var(--panorama-muted);
+}
+
+.ProcessPanorama .panorama-group {
+	margin-bottom: var(--panorama-gap);
+}
+
+.ProcessPanorama .panorama-group-head,
+.ProcessPanorama .panorama-toolbar,
+.ProcessPanorama .panorama-bulk {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: var(--panorama-gap);
+}
+
+.ProcessPanorama .panorama-toolbar {
+	flex-wrap: wrap;
+}
+
+.ProcessPanorama .panorama-panel > .panorama-toolbar {
+	padding: 0 !important;
+	border: 0 !important;
+	border-radius: 0;
+	background: transparent;
+	box-shadow: none !important;
+}
+
+.ProcessPanorama .panorama-bulk {
+	position: sticky;
+	top: 0;
+	z-index: 20;
+	flex-wrap: wrap;
+}
+
+.ProcessPanorama .panorama-group-title {
+	min-width: 0;
+	font-size: 15px;
+	font-weight: 700;
+}
+
+.ProcessPanorama .panorama-group-count {
+	margin-left: auto;
+}
+
+.ProcessPanorama .panorama-search {
+	flex: 0 1 300px;
+}
+
+.ProcessPanorama .panorama-workspace-head .panorama-search {
+	flex: 1 1 auto;
+	max-width: none;
+}
+
+.ProcessPanorama .panorama-count,
+.ProcessPanorama .panorama-bulk-count {
+	font-weight: 700;
+}
+
+/* Explorer workspace */
+.ProcessPanorama .panorama-explorer-shell {
+	display: grid;
+	grid-template-columns: minmax(300px, 360px) minmax(0, 1fr);
+	gap: var(--panorama-gap);
+	align-items: start;
+}
+
+.ProcessPanorama .panorama-explorer-sidebar,
+.ProcessPanorama .panorama-explorer-main {
+	min-width: 0;
+}
+
+.ProcessPanorama .panorama-explorer-sidebar {
+	position: sticky;
+	top: 14px;
+	display: grid;
+	gap: 12px;
+	padding: 16px;
+	border: 1px solid var(--panorama-border);
+	border-radius: var(--panorama-radius);
+	background: var(--panorama-surface);
+}
+
+.ProcessPanorama .panorama-control-panel {
+	display: grid;
+	gap: 14px;
+	margin: 0;
+}
+
+.ProcessPanorama .panorama-control-group {
+	display: grid;
+	gap: 8px;
+	min-width: 0;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	box-shadow: none;
+}
+
+.ProcessPanorama .panorama-control-label {
+	color: var(--panorama-text);
+	font-size: 12px;
+	font-weight: 700;
+	line-height: 1.25;
+}
+
+.ProcessPanorama .panorama-choice-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.ProcessPanorama .panorama-view-row {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.ProcessPanorama .panorama-choice {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 34px;
+	padding: 6px 10px;
+	border: 0;
+	border-radius: var(--panorama-radius);
+	background: var(--panorama-soft);
+	color: var(--panorama-text);
+	cursor: pointer;
+	font: inherit;
+	font-size: 13px;
+	line-height: 1.2;
+	text-align: center;
+	white-space: nowrap;
+}
+
+.ProcessPanorama .panorama-choice:hover,
+.ProcessPanorama .panorama-choice:focus {
+	background: rgba(0,0,0,.07);
+	color: var(--panorama-text);
+	text-decoration: none;
+}
+
+.ProcessPanorama .panorama-choice input {
+	position: absolute;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.ProcessPanorama .panorama-choice.is-active,
+.ProcessPanorama .panorama-choice:has(input:checked),
+.ProcessPanorama #Inputfield_view_mode button.active {
+	background: var(--panorama-accent);
+	color: #fff;
+}
+
+.ProcessPanorama .panorama-choice.is-active:hover,
+.ProcessPanorama .panorama-choice.is-active:focus,
+.ProcessPanorama .panorama-choice:has(input:checked):hover,
+.ProcessPanorama .panorama-choice:has(input:checked):focus,
+.ProcessPanorama #Inputfield_view_mode button.active:hover,
+.ProcessPanorama #Inputfield_view_mode button.active:focus {
+	background: var(--panorama-accent);
+	color: #fff;
+}
+
+.ProcessPanorama .panorama-selector-input {
+	min-height: 88px;
+	resize: vertical;
+}
+
+.ProcessPanorama .panorama-selector-input:placeholder-shown {
+	color: var(--panorama-muted);
+}
+
+.ProcessPanorama .panorama-choice .panorama-icon {
+	display: none;
+}
+
+.ProcessPanorama .panorama-export-workspace {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	width: 100%;
+	margin-top: 2px;
+}
+
+.ProcessPanorama .panorama-workspace-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 14px;
+	margin-bottom: var(--panorama-gap);
+	padding: 14px 16px;
+	border: 1px solid var(--panorama-border);
+	border-radius: var(--panorama-radius);
+	background: var(--panorama-surface);
+}
+
+.ProcessPanorama .panorama-workspace-summary {
+	display: grid;
+	gap: 2px;
+	min-width: 0;
+}
+
+.ProcessPanorama .panorama-workspace-kicker {
+	color: var(--panorama-muted);
+	font-size: 12px;
+	line-height: 1.2;
+}
+
+.ProcessPanorama .panorama-workspace-title {
+	display: block;
+	font-size: 18px;
+	line-height: 1.2;
+}
+
+.ProcessPanorama .panorama-bulk-clear {
+	margin-left: auto;
+	border: 0;
+	background: transparent;
+	color: var(--panorama-muted);
+	cursor: pointer;
+}
+
+.ProcessPanorama .panorama-bulk-clear:hover,
+.ProcessPanorama .panorama-bulk-clear:focus {
+	color: var(--panorama-text);
+}
+
+/* Detail drawer */
+.ProcessPanorama .panorama-drawer {
+	position: fixed;
+	top: 0;
+	right: 0;
+	z-index: 1000;
+	width: 360px;
+	max-width: 92vw;
+	height: 100vh;
+	overflow-y: auto;
+	padding: 20px;
+	border: 0;
+	background: var(--panorama-surface);
+	box-shadow: none;
+}
+
+.ProcessPanorama .panorama-drawer-close {
+	position: absolute;
+	top: 12px;
+	right: 12px;
+	border: 0;
+	background: transparent;
+	color: var(--panorama-muted);
+	cursor: pointer;
+	font-size: 18px;
+}
+
+.ProcessPanorama .panorama-drawer-img {
+	display: block;
+	max-height: 220px;
+	margin: 6px 0 14px;
+	text-align: center;
+}
+
+.ProcessPanorama .panorama-drawer-img img {
+	max-width: 100%;
+	max-height: 220px;
+	object-fit: contain;
+}
+
+.ProcessPanorama .panorama-drawer-name {
+	margin: 0 0 12px;
+	font-size: 18px;
+	line-height: 1.25;
+	word-break: break-all;
+}
+
+.ProcessPanorama .panorama-drawer-dl {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 5px 12px;
+	margin: 0 0 16px;
+	font-size: 13px;
+}
+
+.ProcessPanorama .panorama-drawer-dl dt {
+	color: var(--panorama-muted);
+	font-weight: 700;
+}
+
+.ProcessPanorama .panorama-drawer-dl dd {
+	margin: 0;
+	word-break: break-word;
+}
+
+.ProcessPanorama .panorama-drawer-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-top: 16px;
+}
+
+.ProcessPanorama .panorama-sidebar-actions {
+	align-items: center;
+	padding: 10px 0 14px;
+	border-top: 1px solid var(--panorama-border);
+	border-bottom: 1px solid var(--panorama-border);
+}
+
+.ProcessPanorama .panorama-sidebar-actions-label {
+	flex: 0 0 100%;
+	font-weight: 700;
+}
+
+/* Duplicates */
+.ProcessPanorama .panorama-dupe {
+	overflow: hidden;
+	margin-bottom: 10px;
+	border: 1px solid var(--panorama-border);
+	border-radius: var(--panorama-radius);
+	background: var(--panorama-surface);
+}
+
+.ProcessPanorama .panorama-dupe-head {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 8px 10px;
+	background: var(--panorama-soft);
+}
+
+.ProcessPanorama .panorama-dupe-main {
+	display: grid;
+	min-width: 0;
+	gap: 2px;
+}
+
+.ProcessPanorama .panorama-dupe-main strong {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.ProcessPanorama .panorama-dupe-head img,
+.ProcessPanorama .panorama-dupe-icon {
+	width: 50px;
+	height: 50px;
+	flex: 0 0 auto;
+	border: 1px solid var(--panorama-border);
+	border-radius: 6px;
+}
+
+.ProcessPanorama .panorama-dupe-head img {
+	object-fit: contain;
+}
+
+.ProcessPanorama .panorama-dupe-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--panorama-muted);
+}
+
+.ProcessPanorama .panorama-dupe-list {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+	gap: 4px 18px;
+	margin: 0;
+	padding: 8px 12px 10px 28px;
+	font-size: 13px;
+}
+
+.ProcessPanorama .panorama-dupe-tools {
+	gap: 10px;
+	margin-bottom: 14px;
+}
+
+.ProcessPanorama .panorama-dupe-tools .panorama-note {
+	margin-bottom: 0;
+}
+
+.ProcessPanorama .panorama-dupe-header,
+.ProcessPanorama .panorama-dupe-actions {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.ProcessPanorama .panorama-dupe-header {
+	justify-content: space-between;
+	margin-bottom: 12px;
+}
+
+.ProcessPanorama .panorama-dupe-actions {
+	flex-wrap: wrap;
+	justify-content: flex-end;
+}
+
+.ProcessPanorama .panorama-dupe-header .panorama-panel-title {
+	margin-bottom: 0;
+}
+
+.ProcessPanorama .panorama-dupe-toolbar {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+	margin-bottom: 14px;
+	box-shadow: none;
+}
+
+.ProcessPanorama .panorama-dupe-toolbar .panorama-search {
+	width: 100%;
+	max-width: none;
+	flex: 1 1 auto;
+}
+
+.ProcessPanorama .panorama-dupe-thumb {
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	cursor: pointer;
+}
+
+.ProcessPanorama .panorama-dupe-card .panorama-card-badge {
+	right: 6px;
+	top: 6px;
+}
+
+.ProcessPanorama .panorama-dupe-members h4 {
+	margin: 18px 0 8px;
+}
+
+.ProcessPanorama .panorama-dupe-member-list {
+	display: grid;
+	gap: 8px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ProcessPanorama .panorama-dupe-member-list li {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	padding: 8px 0;
+	border-bottom: 1px solid var(--panorama-border);
+}
+
+.ProcessPanorama .panorama-dupe-member-main {
+	display: grid;
+	min-width: 0;
+	gap: 2px;
+}
+
+.ProcessPanorama .panorama-dupe-member-main a,
+.ProcessPanorama .panorama-dupe-member-main span {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.ProcessPanorama .panorama-dupe-member-actions {
+	display: flex;
+	flex: 0 0 auto;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	gap: 6px;
+}
+
+.ProcessPanorama .panorama-dupe-more {
+	display: inline-block;
+}
+
+.ProcessPanorama .panorama-dupe-more summary {
+	color: var(--panorama-muted);
+	cursor: pointer;
+}
+
+.ProcessPanorama .panorama-dupe-more ul {
+	margin: 4px 0 0;
+	padding-left: 18px;
+}
+
+.ProcessPanorama .panorama-show-more {
+	margin-top: var(--panorama-gap);
+	text-align: center;
+}
+
+.ProcessPanorama .panorama-warmup-status {
+	margin-top: var(--panorama-gap);
+}
+
+.ProcessPanorama .panorama-warmup-line {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.ProcessPanorama .panorama-export {
+	margin-bottom: 12px;
+}
+
+@media (max-width: 760px) {
+	.ProcessPanorama .panorama-field-row {
+		grid-template-columns: 34px minmax(0, 1fr);
+	}
+	.ProcessPanorama .panorama-field-meta {
+		grid-column: 2;
+		justify-content: flex-start;
+		min-width: 0;
+	}
+	.ProcessPanorama .panorama-explorer-shell {
+		grid-template-columns: minmax(0, 1fr);
+	}
+	.ProcessPanorama .panorama-explorer-sidebar {
+		position: static;
+	}
+	.ProcessPanorama .panorama-workspace-head {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+	.ProcessPanorama .panorama-toolbar,
+	.ProcessPanorama .panorama-group-head,
+	.ProcessPanorama .panorama-dupe-header {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+	.ProcessPanorama .panorama-search {
+		width: 100%;
+		flex-basis: auto;
+	}
+	.ProcessPanorama .panorama-group-count,
+	.ProcessPanorama .panorama-bulk-clear {
+		margin-left: 0;
+	}
+	.ProcessPanorama .panorama-dupe-actions {
+		justify-content: flex-start;
+	}
+	.ProcessPanorama .panorama-dupe-member-list li {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+	.ProcessPanorama .panorama-dupe-member-actions {
+		justify-content: flex-start;
+	}
+	.ProcessPanorama .panorama-skeleton {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (max-width: 560px) {
+	.ProcessPanorama .panorama-bar {
+		grid-template-columns: 64px 1fr;
+	}
+	.ProcessPanorama .panorama-bar-meta {
+		grid-column: 2;
+	}
+}
