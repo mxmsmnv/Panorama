@@ -45,7 +45,7 @@ require_once $bootstrap;
 $config = \ProcessWire\ProcessWire::buildConfig($root);
 $processWire = new \ProcessWire\ProcessWire($config);
 $modules = $processWire->wire('modules');
-$panorama = $modules ? $modules->get('Panorama') : null;
+$panorama = $modules ? $modules->getModule('Panorama', ['noPermissionCheck' => true]) : null;
 if (!$panorama || !method_exists($panorama, 'warmupImages')) {
 	fwrite(STDERR, "Panorama is not installed or its warmup API is unavailable.\n");
 	exit(3);
