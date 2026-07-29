@@ -43,6 +43,36 @@ Panorama adds a dedicated admin section under **Setup > Panorama** where site ed
 - delete cleanup candidates with CSRF-protected confirmations;
 - run background image-cache warmup jobs.
 
+## CLI warmup
+
+Large variation sets should be generated outside frontend and audit requests.
+Run Panorama from the ProcessWire root so work is bounded, observable, and does
+not depend on Apache/FastCGI request limits.
+
+Count the work first:
+
+```bash
+php site/modules/Panorama/bin/panorama.php \
+  --template=product --field=images --width=500 --height=500 \
+  --processor=squareimages --mode=contain --dry-run
+```
+
+Warm the product-card cache in bounded steps:
+
+```bash
+php -d memory_limit=512M -d max_execution_time=0 \
+  site/modules/Panorama/bin/panorama.php \
+  --template=product --field=images --width=500 --height=500 \
+  --processor=squareimages --mode=contain --limit=500
+```
+
+Use `--offset=500` for the next slice, `--all-images` for galleries, and
+`--json` for automation. Do not use `--force` during routine warmup: it deletes
+matching cached variants before regenerating them.
+
+For core ProcessWire variations, omit `--processor=squareimages` or pass
+`--processor=processwire`.
+
 ## Interface
 
 Panorama follows the ProcessWire/AdminThemeUikit admin style and uses pw-design-system CSS variables where available.

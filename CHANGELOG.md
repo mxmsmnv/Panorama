@@ -4,6 +4,22 @@ All notable changes to Panorama are documented here.
 
 Panorama follows SemVer (`Major.Minor.Patch`) in release notes. The ProcessWire module version uses the numeric equivalent, so `1.0.0` is published as `100`.
 
+## [1.1.0] - 2026-07-29
+
+### Added
+
+- Added a CLI warmup command with dry-run, offset/limit, JSON, all-images, and
+  bounded ProcessWire or SquareImages generation.
+- Added a public `warmupImages()` maintenance API with progress callbacks and
+  runtime/memory counters.
+
+### Changed
+
+- Warmup now uncaches every loaded page and collects cyclic references between
+  items so long runs have stable memory use.
+- Documented the safe large-site workflow and the LQRS product-card
+  SquareImages `contain` command.
+
 ## [1.0.0] - 2026-06-20
 
 ### Added

@@ -214,31 +214,126 @@ trait PanoramaWarmup {
 	}
 
 	protected function warmupPageImage($pageId, $fieldName, $width, $height, $force) {
+		return $this->warmupPageImages($pageId, $fieldName, $width, $height, [
+			'force' => $force,
+			'all_images' => false,
+			'processor' => 'processwire',
+			'mode' => 'crop',
+		]);
+	}
+
+	protected function warmupPageImages($pageId, $fieldName, $width, $height, array $options = []) {
 		$page = $this->wire()->pages->get((int) $pageId);
 		if(!$page->id) return 'failed';
 		$value = $page->getUnformatted($fieldName);
-		$image = null;
-		if($value instanceof Pageimage) $image = $value;
-		elseif($value instanceof Pageimages) $image = $value->first();
-		if(!$image instanceof Pageimage) return 'skipped';
-		if(strtolower($image->ext) === 'svg') return 'skipped';
-
-		$cachedName = $this->variationFilename(basename($image->filename), ".{$width}x{$height}.");
-		$cachedPath = dirname($image->filename) . DIRECTORY_SEPARATOR . $cachedName;
-		$exists = is_file($cachedPath);
-		if($force && $exists) {
-			@unlink($cachedPath);
-			$exists = false;
+		$images = [];
+		if($value instanceof Pageimage) $images[] = $value;
+		elseif($value instanceof Pageimages) {
+			$images = !empty($options['all_images']) ? iterator_to_array($value) : [$value->first()];
 		}
+		$images = array_values(array_filter($images, fn($image) => $image instanceof Pageimage));
+		if(!$images) return 'skipped';
 
+		$processor = ($options['processor'] ?? 'processwire') === 'squareimages' ? 'squareimages' : 'processwire';
+		$mode = in_array(($options['mode'] ?? 'crop'), ['crop', 'contain'], true) ? $options['mode'] : 'crop';
+		$force = !empty($options['force']);
+		$statuses = [];
 		try {
-			$image->size($width, $height);
-		} catch(\Exception $e) {
-			return 'failed';
+			foreach($images as $image) {
+				if(strtolower($image->ext) === 'svg') {
+					$statuses[] = 'skipped';
+					continue;
+				}
+				if($processor === 'squareimages') {
+					if($width !== $height) throw new WireException('SquareImages requires equal width and height.');
+					$basename = $image->basename(false);
+					$extension = strtolower(pathinfo($image->filename, PATHINFO_EXTENSION));
+					$name = pathinfo($basename, PATHINFO_FILENAME) . ".{$width}x{$width}sq-{$mode}.{$extension}";
+					$path = dirname($image->filename) . DIRECTORY_SEPARATOR . $name;
+					$exists = is_file($path);
+					if($force && $exists) {
+						@unlink($path);
+						$exists = false;
+					}
+					$result = $image->square($width, ['mode' => $mode]);
+					$statuses[] = $result instanceof Pageimage ? ($exists ? 'skipped' : 'generated') : 'failed';
+					continue;
+				}
+
+				$cachedName = $this->variationFilename(basename($image->filename), ".{$width}x{$height}.");
+				$cachedPath = dirname($image->filename) . DIRECTORY_SEPARATOR . $cachedName;
+				$exists = is_file($cachedPath);
+				if($force && $exists) {
+					@unlink($cachedPath);
+					$exists = false;
+				}
+				$image->size($width, $height);
+				$statuses[] = $exists ? 'skipped' : (is_file($cachedPath) ? 'generated' : 'failed');
+			}
+		} catch(\Throwable $e) {
+			$this->wire()->log->save('panorama-warmup', "Page {$pageId}: " . $e->getMessage());
+			$statuses[] = 'failed';
+		} finally {
+			$this->wire()->pages->uncache($page);
 		}
 
-		if($exists) return 'skipped';
-		return is_file($cachedPath) ? 'generated' : 'failed';
+		if(in_array('failed', $statuses, true)) return 'failed';
+		if(in_array('generated', $statuses, true)) return 'generated';
+		return 'skipped';
+	}
+
+	/**
+	 * Warm image variants from CLI or another maintenance integration.
+	 */
+	public function warmupImages(array $options = []) {
+		$template = $this->wire()->sanitizer->name((string)($options['template'] ?? ''));
+		$fieldName = $this->wire()->sanitizer->fieldName((string)($options['field'] ?? ''));
+		$field = $this->wire()->fields->get($fieldName);
+		if(!$template || !$this->wire()->templates->get($template) || !$field || !($field->type instanceof FieldtypeImage)) {
+			throw new WireException('A valid template and image field are required.');
+		}
+		$width = max(1, min(4096, (int)($options['width'] ?? 500)));
+		$height = max(1, min(4096, (int)($options['height'] ?? $width)));
+		$processor = ($options['processor'] ?? 'processwire') === 'squareimages' ? 'squareimages' : 'processwire';
+		$mode = in_array(($options['mode'] ?? 'crop'), ['crop', 'contain'], true) ? $options['mode'] : 'crop';
+		if($processor === 'squareimages') {
+			if($width !== $height) throw new WireException('SquareImages requires equal width and height.');
+			if(!$this->wire()->modules->isInstalled('SquareImages')) throw new WireException('SquareImages is not installed.');
+		}
+
+		$ids = array_values(array_map('intval', $this->warmupPageIds($template, $fieldName)));
+		$offset = max(0, (int)($options['offset'] ?? 0));
+		$limit = max(0, (int)($options['limit'] ?? 0));
+		$ids = array_slice($ids, $offset, $limit ?: null);
+		$state = [
+			'total' => count($ids),
+			'processed' => 0,
+			'generated' => 0,
+			'skipped' => 0,
+			'failed' => 0,
+			'elapsed_seconds' => 0,
+			'peak_memory_mb' => 0,
+		];
+		if(!empty($options['dry_run'])) return $state;
+
+		$started = microtime(true);
+		foreach($ids as $id) {
+			$result = $this->warmupPageImages($id, $fieldName, $width, $height, [
+				'force' => !empty($options['force']),
+				'all_images' => !empty($options['all_images']),
+				'processor' => $processor,
+				'mode' => $mode,
+			]);
+			$state['processed']++;
+			$state[$result]++;
+			if(isset($options['progress']) && is_callable($options['progress'])) {
+				$options['progress']($state, $id);
+			}
+			if(function_exists('gc_collect_cycles')) gc_collect_cycles();
+		}
+		$state['elapsed_seconds'] = round(microtime(true) - $started, 3);
+		$state['peak_memory_mb'] = round(memory_get_peak_usage(true) / 1048576, 1);
+		return $state;
 	}
 
 	protected function runWarmupBatch() {
