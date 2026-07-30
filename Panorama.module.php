@@ -55,7 +55,7 @@ class Panorama extends Process implements ConfigurableModule {
 		return [
 			'title' => 'Panorama',
 			'summary' => __('Media audit and maintenance toolkit for ProcessWire images and files: inspect usage, find duplicates, clean orphaned media, audit alt text and warm image caches.'),
-			'version' => 110,
+			'version' => 111,
 			'author' => 'Maxim Semenov',
 			'icon' => 'tachometer',
 			'requires' => 'ProcessWire>=3.0.227, PHP>=8.3.0',

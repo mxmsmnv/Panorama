@@ -177,7 +177,10 @@ trait PanoramaMediaUtilities {
 		$queries = [];
 		foreach($repeater_fields as $repeater_field) {
 			$table = $this->wire()->database->escapeTable("field_{$repeater_field->name}");
-			$queries[] = "SELECT pages_id, data FROM `$table`";
+			// Repeater tables can retain different text collations after site
+			// migrations. Compare their numeric ID lists as binary data so the
+			// UNION does not require MySQL to reconcile those collations.
+			$queries[] = "SELECT pages_id, CAST(data AS BINARY) AS data FROM `$table`";
 		}
 		$results = $this->wire()->database->query(implode(' UNION ALL ', $queries));
 		$rows = $results->fetchAll(\PDO::FETCH_ASSOC);

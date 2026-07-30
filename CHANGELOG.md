@@ -4,6 +4,14 @@ All notable changes to Panorama are documented here.
 
 Panorama follows SemVer (`Major.Minor.Patch`) in release notes. The ProcessWire module version uses the numeric equivalent, so `1.0.0` is published as `100`.
 
+## [1.1.1] - 2026-07-30
+
+### Fixed
+
+- Repeater ownership lookup now normalizes each table's value as binary data
+  before combining rows, avoiding MySQL error 1271 on sites whose field tables
+  use mixed collations.
+
 ## [1.1.0] - 2026-07-29
 
 ### Added
