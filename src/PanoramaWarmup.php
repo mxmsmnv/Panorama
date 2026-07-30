@@ -237,6 +237,9 @@ trait PanoramaWarmup {
 		$processor = ($options['processor'] ?? 'processwire') === 'squareimages' ? 'squareimages' : 'processwire';
 		$mode = in_array(($options['mode'] ?? 'crop'), ['crop', 'contain'], true) ? $options['mode'] : 'crop';
 		$force = !empty($options['force']);
+		$quality = max(1, min(100, (int)($options['quality'] ?? 90)));
+		$webp = $processor === 'processwire' && !empty($options['webp']);
+		$webpQuality = max(1, min(100, (int)($options['webp_quality'] ?? 85)));
 		$statuses = [];
 		try {
 			foreach($images as $image) {
@@ -262,13 +265,26 @@ trait PanoramaWarmup {
 
 				$cachedName = $this->variationFilename(basename($image->filename), ".{$width}x{$height}.");
 				$cachedPath = dirname($image->filename) . DIRECTORY_SEPARATOR . $cachedName;
-				$exists = is_file($cachedPath);
-				if($force && $exists) {
-					@unlink($cachedPath);
-					$exists = false;
+				$webpPath = preg_replace('/\.[^.]+$/', '.webp', $cachedPath);
+				$nativeExists = is_file($cachedPath);
+				$webpExists = $webp && is_string($webpPath) && is_file($webpPath);
+				if($force) {
+					if($nativeExists) @unlink($cachedPath);
+					if($webpExists && is_string($webpPath)) @unlink($webpPath);
+					$nativeExists = false;
+					$webpExists = false;
 				}
-				$image->size($width, $height);
-				$statuses[] = $exists ? 'skipped' : (is_file($cachedPath) ? 'generated' : 'failed');
+				$resizeOptions = ['quality' => $quality];
+				if($webp) {
+					$resizeOptions['webpAdd'] = true;
+					$resizeOptions['webpQuality'] = $webpQuality;
+				}
+				$image->size($width, $height, $resizeOptions);
+				$nativeReady = is_file($cachedPath);
+				$webpReady = !$webp || (is_string($webpPath) && is_file($webpPath));
+				if(!$nativeReady || !$webpReady) $statuses[] = 'failed';
+				elseif(!$nativeExists || ($webp && !$webpExists)) $statuses[] = 'generated';
+				else $statuses[] = 'skipped';
 			}
 		} catch(\Throwable $e) {
 			$this->wire()->log->save('panorama-warmup', "Page {$pageId}: " . $e->getMessage());
@@ -296,9 +312,13 @@ trait PanoramaWarmup {
 		$height = max(1, min(4096, (int)($options['height'] ?? $width)));
 		$processor = ($options['processor'] ?? 'processwire') === 'squareimages' ? 'squareimages' : 'processwire';
 		$mode = in_array(($options['mode'] ?? 'crop'), ['crop', 'contain'], true) ? $options['mode'] : 'crop';
+		$quality = max(1, min(100, (int)($options['quality'] ?? 90)));
+		$webp = !empty($options['webp']);
+		$webpQuality = max(1, min(100, (int)($options['webp_quality'] ?? 85)));
 		if($processor === 'squareimages') {
 			if($width !== $height) throw new WireException('SquareImages requires equal width and height.');
 			if(!$this->wire()->modules->isInstalled('SquareImages')) throw new WireException('SquareImages is not installed.');
+			if($webp) throw new WireException('WebP warmup currently requires the ProcessWire processor.');
 		}
 
 		$ids = array_values(array_map('intval', $this->warmupPageIds($template, $fieldName)));
@@ -323,6 +343,9 @@ trait PanoramaWarmup {
 				'all_images' => !empty($options['all_images']),
 				'processor' => $processor,
 				'mode' => $mode,
+				'quality' => $quality,
+				'webp' => $webp,
+				'webp_quality' => $webpQuality,
 			]);
 			$state['processed']++;
 			$state[$result]++;

@@ -4,6 +4,18 @@ All notable changes to Panorama are documented here.
 
 Panorama follows SemVer (`Major.Minor.Patch`) in release notes. The ProcessWire module version uses the numeric equivalent, so `1.0.0` is published as `100`.
 
+## [1.1.2] - 2026-07-30
+
+### Added
+
+- Core ProcessWire CLI warmup can now generate WebP siblings with bounded
+  `--webp`, `--quality`, and `--webp-quality` options.
+
+### Changed
+
+- Warmup status now accounts for the native variation and requested WebP
+  sibling together, including partial-cache and force-regeneration cases.
+
 ## [1.1.1] - 2026-07-30
 
 ### Fixed

@@ -9,7 +9,8 @@ if (PHP_SAPI !== 'cli') {
 
 $args = getopt('', [
 	'root::', 'template:', 'field:', 'width::', 'height::', 'processor::',
-	'mode::', 'offset::', 'limit::', 'force', 'all-images', 'dry-run', 'json', 'help',
+	'mode::', 'quality::', 'webp', 'webp-quality::', 'offset::', 'limit::',
+	'force', 'all-images', 'dry-run', 'json', 'help',
 ]);
 
 if (isset($args['help']) || !isset($args['template'], $args['field'])) {
@@ -22,6 +23,9 @@ Run from the ProcessWire root:
 Options:
   --processor=processwire|squareimages  Generator (default: processwire)
   --mode=crop|contain                 SquareImages mode (default: crop)
+  --quality=N                         Core image quality, 1–100 (default: 90)
+  --webp                              Also warm a WebP sibling (core processor)
+  --webp-quality=N                    WebP quality, 1–100 (default: 85)
   --all-images                       Process every image in multi-image fields
   --offset=N --limit=N               Bound or resume a run
   --force                            Delete and regenerate matching variants
@@ -59,6 +63,9 @@ $options = [
 	'height' => (int)($args['height'] ?? ($args['width'] ?? 500)),
 	'processor' => (string)($args['processor'] ?? 'processwire'),
 	'mode' => (string)($args['mode'] ?? 'crop'),
+	'quality' => (int)($args['quality'] ?? 90),
+	'webp' => isset($args['webp']),
+	'webp_quality' => (int)($args['webp-quality'] ?? 85),
 	'offset' => (int)($args['offset'] ?? 0),
 	'limit' => (int)($args['limit'] ?? 0),
 	'force' => isset($args['force']),

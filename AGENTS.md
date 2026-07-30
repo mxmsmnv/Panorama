@@ -19,6 +19,9 @@ php site/modules/Panorama/bin/panorama.php \
 - Product cards using SquareImages must be warmed with
   `--processor=squareimages`; core `Pageimage::size()` variations are a
   different cache.
+- Add `--webp` only with `--processor=processwire` when frontend helpers prefer
+  pre-generated WebP siblings. The HTTP request must still fall back to the
+  native variation or original instead of generating a missing WebP file.
 - Do not add `--force` unless the user explicitly wants existing matching
   variants invalidated and regenerated.
 - Use `--offset` and `--limit` for production slices and `--json` for

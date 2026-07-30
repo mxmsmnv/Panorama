@@ -71,7 +71,19 @@ Use `--offset=500` for the next slice, `--all-images` for galleries, and
 matching cached variants before regenerating them.
 
 For core ProcessWire variations, omit `--processor=squareimages` or pass
-`--processor=processwire`.
+`--processor=processwire`. Add `--webp` to warm the matching WebP sibling
+without doing that work during a frontend request:
+
+```bash
+php -d memory_limit=512M -d max_execution_time=0 \
+  site/modules/Panorama/bin/panorama.php \
+  --template=article --field=images --width=1200 --height=630 \
+  --processor=processwire --webp --webp-quality=85 --limit=250
+```
+
+`--quality` and `--webp-quality` accept values from 1 to 100. WebP warmup is
+available only with the core ProcessWire processor; SquareImages variants use
+their own exact cache names.
 
 ## Interface
 
